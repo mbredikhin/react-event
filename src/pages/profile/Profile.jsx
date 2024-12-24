@@ -1,5 +1,4 @@
 import { useEffect, useState } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
 import {
   Box,
   CircularProgress,
@@ -8,7 +7,7 @@ import {
   Tabs,
   Typography,
 } from '@mui/material';
-import { fetchProfile } from '@/store';
+import { useStore } from '@/store';
 import {
   Contacts,
   ProfileCard,
@@ -55,11 +54,12 @@ import { useRequest } from '@/hooks';
 //   ]
 // }
 export function Profile() {
-  const { profile, loading } = useSelector((state) => state.profile);
+  const profile = useStore((state) => state.profile.data);
+  const loading = useStore((state) => state.profile.loading);
+  const fetchProfile = useStore((state) => state.fetchProfile);
   const [requests, setRequests] = useState([]);
   const [favouriteRequests, setFavouriteRequests] = useState([]);
   const [tabIndex, setTabIndex] = useState(0);
-  const dispatch = useDispatch();
 
   const [
     addRequestToFavourites,
@@ -123,7 +123,7 @@ export function Profile() {
   });
 
   function init() {
-    dispatch(fetchProfile()).unwrap();
+    fetchProfile();
     getRequests();
   }
 

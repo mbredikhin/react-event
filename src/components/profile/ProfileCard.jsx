@@ -9,18 +9,17 @@ import {
   Typography,
 } from '@mui/material';
 
-import { signOut } from '@/store';
-import { useDispatch } from 'react-redux';
+import { useStore } from '@/store';
 import { useNavigate } from 'react-router-dom';
 import PersonIcon from '@/assets/images/PersonRounded.svg?react';
 import { routes } from '@/utils/constants';
 
 export function ProfileCard({ profile }) {
   const navigate = useNavigate();
-  const dispatch = useDispatch();
+  const signOut = useStore((state) => state.signOut);
 
   async function logout() {
-    dispatch(signOut());
+    signOut();
     navigate(routes.login());
   }
 
